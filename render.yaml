@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: codea
-    env: java
-    plan: free
-    buildCommand: ""  # Vì bạn đã build sẵn
-    startCommand: java -jar codea-0.0.1-SNAPSHOT.war
