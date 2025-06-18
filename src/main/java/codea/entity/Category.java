@@ -2,6 +2,8 @@ package codea.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,5 +30,6 @@ public class Category {
 	String name;
 
 	@OneToMany(mappedBy = "category")
+	@JsonBackReference
 	List<Product> products;
 }

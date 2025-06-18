@@ -3,6 +3,7 @@ package codea.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,16 +46,20 @@ public class Product {
 
 	@ManyToOne
 	@JoinColumn(name = "CategoryID")
+	@JsonManagedReference
 	Category category;
 
 	@ManyToOne
 	@JoinColumn(name = "BrandID")
+	@JsonManagedReference
 	Brand brand;
 
 	@OneToMany(mappedBy = "product")
+	@JsonManagedReference
 	List<Gallery> galleries;
 
 	@OneToMany(mappedBy = "product")
+	@JsonManagedReference
 	List<ProductDetail> productDetails;
 //
 //	@OneToMany(mappedBy = "product")

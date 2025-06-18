@@ -26,9 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import codea.dao.AuthorityDAO;
+import codea.dao.RoleDAO;
 import codea.dao.UserDAO;
 import codea.dto.ResponeBase;
+import codea.entity.Authority;
+import codea.entity.Role;
 import codea.entity.User;
+import codea.service.UserService;
 import codea.utils.RandomUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -38,11 +43,17 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserRestController {
 
 	@Autowired
-	UserDAO userDao;
+	UserService userService;
+	
+	@Autowired
+	AuthorityDAO authorityDAO;
+	
+	@Autowired
+	RoleDAO roleDAO; 
 
 	@GetMapping("/user/list")
 	public List<User> getFullUser() {
-		return userDao.findAll();
+		return userService.findAllUser();
 	}
 
 	@PostMapping("/user/login")
@@ -50,12 +61,66 @@ public class UserRestController {
 			@RequestParam("password") String password) {
 		ResponeBase<User> rb = new ResponeBase<User>();
 		try {
-			User user = userDao.findByUsername(username);
+			User user = userService.findByUsername(username);
 			if (user.getPassword().equals(password)) {
 				rb.setSuccess(true);
 				rb.setData(user);
 				rb.setError("");
 			}
+		} catch (Exception e) {
+			rb.setSuccess(false);
+			rb.setError(e.getMessage());
+		}
+		return rb;
+	}
+	
+	@PostMapping("/user/create/account")
+	public ResponeBase<User> createAccount(@RequestParam("username") String username,
+			@RequestParam("password") String password, @RequestParam("email") String email,
+			@RequestParam("fullname") String fullname) {
+		ResponeBase<User> rb = new ResponeBase<User>();
+		try {
+			User user = new User();
+			user.setUsername(username);
+			user.setEmail(email);
+			user.setFullname(fullname);
+			user.setPassword(password);
+			
+			userService.create(user);
+			
+			Authority auth = new Authority();
+			auth.setRole(roleDAO.findById(1).get());
+			auth.setUser(user);
+			rb.setData(user);
+			rb.setSuccess(true);
+			rb.setError("");
+		} catch (Exception e) {
+			rb.setSuccess(false);
+			rb.setError(e.getMessage());
+		}
+		return rb;
+	}
+	
+	@PostMapping("/user/update/account")
+	public ResponeBase<User> updateAccount(@RequestParam("username") String username,
+			@RequestParam("password") String password, @RequestParam("email") String email,
+			@RequestParam("fullname") String fullname, @RequestParam("image") String image) {
+		ResponeBase<User> rb = new ResponeBase<User>();
+		try {
+			User user = new User();
+			user.setUsername(username);
+			user.setEmail(email);
+			user.setFullname(fullname);
+			user.setPassword(password);
+			
+			userService.update(user);
+			
+			Authority auth = new Authority();
+			auth.setRole(roleDAO.findById(1).get());
+			auth.setUser(user);
+			rb.setData(user);
+			rb.setSuccess(true);
+			rb.setError("");
 		} catch (Exception e) {
 			rb.setSuccess(false);
 			rb.setError(e.getMessage());
