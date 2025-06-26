@@ -34,7 +34,7 @@ public class ProductRestController {
 
 	@PostMapping("get/all")
 	public ResponeBase<Map<String, Object>> findAll(@RequestParam("page") Integer page,
-			@RequestParam("size") Integer size) {
+			@RequestParam("pageSize") Integer size) {
 		ResponeBase<Map<String, Object>> basePage = new ResponeBase<Map<String, Object>>();
 
 		Page<Product> productPage = productService.findAllUserSoft(page, size);

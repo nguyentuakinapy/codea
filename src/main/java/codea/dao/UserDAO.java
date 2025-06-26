@@ -10,8 +10,8 @@ import codea.entity.User;
 
 public interface UserDAO extends JpaRepository<User, Integer> {
 
-	@Query("SELECT o FROM User o WHERE username = ?1")
-	User findByUsername(String username);
+	@Query("SELECT o FROM User o WHERE email = ?1")
+	User findByEmail(String email);
 //
 //	@Query("SELECT u FROM BookingDetail bd JOIN bd.booking b JOIN b.user u "
 //			+ "WHERE bd.bookingDetailId = :bookingDetailId")

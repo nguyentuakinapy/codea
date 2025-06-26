@@ -29,21 +29,12 @@ public class Address {
 
 	@Column(name = "Addressdetail")
 	String addRessDetail;
+	
+	@Column(name = "Address")
+	String address;
 
 	@Column(name = "Phone")
 	String phone;
-
-	@Column(name = "City")
-	String city;
-
-	@Column(name = "District")
-	String district;
-
-	@Column(name = "Ward")
-	String ward;
-
-	@Column(name = "Distance")
-	Double distance;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UserID")

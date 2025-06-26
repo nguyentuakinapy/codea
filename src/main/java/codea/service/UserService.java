@@ -6,7 +6,7 @@ import codea.entity.User;
 
 public interface UserService {
 	
-	User findByUsername(String username);
+	User findByEmailUser(String email);
 	
 	List<User> findAllUser();
 	

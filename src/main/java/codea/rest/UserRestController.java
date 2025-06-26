@@ -57,11 +57,11 @@ public class UserRestController {
 	}
 
 	@PostMapping("/user/login")
-	public ResponeBase<User> checkLogin(@RequestParam("username") String username,
+	public ResponeBase<User> checkLogin(@RequestParam("email") String email,
 			@RequestParam("password") String password) {
 		ResponeBase<User> rb = new ResponeBase<User>();
 		try {
-			User user = userService.findByUsername(username);
+			User user = userService.findByEmailUser(email);
 			if (user.getPassword().equals(password)) {
 				rb.setSuccess(true);
 				rb.setData(user);
@@ -75,13 +75,11 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/user/create/account")
-	public ResponeBase<User> createAccount(@RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("email") String email,
+	public ResponeBase<User> createAccount(@RequestParam("password") String password, @RequestParam("email") String email,
 			@RequestParam("fullname") String fullname) {
 		ResponeBase<User> rb = new ResponeBase<User>();
 		try {
 			User user = new User();
-			user.setUsername(username);
 			user.setEmail(email);
 			user.setFullname(fullname);
 			user.setPassword(password);
@@ -108,7 +106,6 @@ public class UserRestController {
 		ResponeBase<User> rb = new ResponeBase<User>();
 		try {
 			User user = new User();
-			user.setUsername(username);
 			user.setEmail(email);
 			user.setFullname(fullname);
 			user.setPassword(password);
