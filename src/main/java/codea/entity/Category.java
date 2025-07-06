@@ -24,9 +24,9 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "CategoryID")
-	Integer categoryID;
+	Integer categoryId;
 
-	@Column(name = "Name")
+	@Column(name = "Name", nullable = false)
 	String name;
 
 	@OneToMany(mappedBy = "category")

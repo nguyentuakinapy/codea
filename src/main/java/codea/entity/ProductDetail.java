@@ -28,13 +28,7 @@ public class ProductDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Product_DetailID")
-	Integer productDetailID;
-
-	@Column(name = "Color")
-	String color;
-
-	@Column(name = "Image")
-	String image;
+	Integer productDetailId;
 
 	@ManyToOne
 	@JoinColumn(name = "ProductID")
@@ -43,6 +37,14 @@ public class ProductDetail {
 	
 	@OneToMany(mappedBy = "productDetail")
 	@JsonManagedReference
-	List<ProductDetailSize> productDetailSize;
+	List<ProductDetailSize> sizes;
 
+	@OneToMany(mappedBy = "productDetail")
+	@JsonManagedReference
+	List<Gallery> galleries;
+	
+	@ManyToOne
+    @JoinColumn(name = "ColorID", nullable = false)
+	@JsonManagedReference
+    Color color;
 }

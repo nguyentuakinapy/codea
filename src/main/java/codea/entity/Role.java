@@ -21,11 +21,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Role implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Roleid", nullable = false)
+	@Column(name = "RoleID", nullable = false)
 	private Integer roleId;
 
 	@Column(name = "RoleName", nullable = false)
-	private String name;
+	private String roleName;
 
 	@OneToMany(mappedBy = "role")
     @JsonIgnore

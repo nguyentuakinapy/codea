@@ -1,12 +1,10 @@
 package codea.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -24,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Voucher {
 	@Id
 	@Column(name = "VoucherID")
-	Integer voucherID;
+	Integer voucherId;
 
 	@Column(name = "PercentDecrease")
 	Integer percentDecrease;
@@ -34,7 +32,7 @@ public class Voucher {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "Date")
-	Date date = new Date();
+	LocalDate date = LocalDate.now();
 
 	@OneToMany(mappedBy = "voucher")
 	List<Order> orders;

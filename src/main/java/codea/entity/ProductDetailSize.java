@@ -1,6 +1,6 @@
 package codea.entity;
 
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,23 +27,28 @@ public class ProductDetailSize {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ProductDetailSizeID")
-	Integer product_detail_size_id;
+	Integer productDetailSizeId;
 
-	@Column(name = "Size")
+	@Column(name = "Size", nullable = false)
 	String size;
 
-	@Column(name = "Quantity")
+	@Column(name = "Quantity", nullable = false)
 	Integer quantity;
 
-	@Column(name = "Price")
-	Double price;
-	
-	@Column(name = "realPrice")
-	Double realPrice;
+	@Column(name = "Price", nullable = false)
+	BigDecimal price;
 	
 	@Column(name = "discountPercent")
-	Integer discountPercent;
+	Integer discountPercent = 0;
+	
+	@Column(name = "realPrice", nullable = false)
+    private BigDecimal realPrice;
 
+	@ManyToOne
+	@JoinColumn(name = "Product_DetailID")
+	@JsonBackReference
+	ProductDetail productDetail;
+	
 	@OneToMany(mappedBy = "productDetailSize")
 	@JsonBackReference
 	List<Cart> carts;
@@ -51,9 +56,4 @@ public class ProductDetailSize {
 	@OneToMany(mappedBy = "productDetailSize")
 	@JsonBackReference
 	List<OrderDetail> orderDetails;
-
-	@ManyToOne
-	@JoinColumn(name = "Product_DetailID")
-	@JsonBackReference
-	ProductDetail productDetail;
 }

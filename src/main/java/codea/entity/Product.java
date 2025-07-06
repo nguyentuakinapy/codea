@@ -1,6 +1,6 @@
 package codea.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -29,39 +29,27 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ProductID")
-	Integer productID;
+	Integer productId;
 
-	@Column(name = "Name")
+	@Column(name = "Name", nullable = false)
 	String name;
 
-	@Column(name = "Status")
+	@Column(name = "Status", nullable = false)
 	Integer status = 1;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "Date")
-	Date date = new Date();
-
-	@Column(name = "Description")
-	String description;
-
+	@Column(name = "Date", nullable = false)
+	LocalDate date = LocalDate.now();
+	
 	@ManyToOne
-	@JoinColumn(name = "CategoryID")
+	@JoinColumn(name = "CategoryID", nullable = false)
 	@JsonManagedReference
 	Category category;
-
-	@ManyToOne
-	@JoinColumn(name = "BrandID")
-	@JsonManagedReference
-	Brand brand;
-
-	@OneToMany(mappedBy = "product")
-	@JsonManagedReference
-	List<Gallery> galleries;
 
 	@OneToMany(mappedBy = "product")
 	@JsonManagedReference
 	List<ProductDetail> productDetails;
-//
-//	@OneToMany(mappedBy = "product")
-//	List<Feedback> feedbacks;
+
+	@OneToMany(mappedBy = "product")
+	List<Feedback> feedbacks;
 }

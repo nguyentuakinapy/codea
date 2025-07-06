@@ -1,6 +1,6 @@
 package codea.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -27,17 +27,17 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "OrderID")
-	Integer orderID;
+	Integer orderId;
 
 	@Column(name = "Totalprice")
 	Double totalPrice;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "Date")
-	Date date = new Date();
+	LocalDate date = LocalDate.now();
 
 	@Column(name = "Address")
-	String addRess;
+	String address;
 
 	@Column(name = "Phone")
 	String phone;

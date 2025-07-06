@@ -10,30 +10,27 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "address")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "AddressID")
-	Integer addRessID;
+	Integer addressId;
 
-	@Column(name = "Addressdetail")
-	String addRessDetail;
+	@Column(name = "AddressDetail", nullable = false)
+	String addressDetail;
 	
-	@Column(name = "Address")
+	@Column(name = "Address", nullable = false)
 	String address;
 
-	@Column(name = "Phone")
+	@Column(name = "Phone", nullable = false, length = 10)
 	String phone;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -1,7 +1,6 @@
 package codea.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,17 +18,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "UserID", nullable = false)
 	private Integer userId;
 	
-	@Column(name = "Email", nullable = false)
+	@Column(name = "Email", nullable = false, unique = true)
 	private String email;
 	
-	@Column(name = "Image", nullable = true)
+	@Column(name = "Image")
 	private String image = null;
 
 	@Column(name = "Password", nullable = false)
@@ -37,18 +36,25 @@ public class User implements Serializable {
 	
 	@Column(name = "Fullname", nullable = false)
 	private String fullname;
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
-//	@JsonManagedReference
-	private List<Authority> authorities;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
 	@JsonIgnore
-	private List<Address> address;
+	private List<Address> addresses;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
 	@JsonIgnore
 	private List<Cart> carts;
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
+//	@JsonManagedReference
+	private List<Authority> authorities;
+
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+    private List<Feedback> feedbacks;
+	
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+    private List<Order> orders;
 }
 

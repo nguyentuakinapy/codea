@@ -6,17 +6,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @SuppressWarnings("serial")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "authority")
+@Data
 public class Authority implements Serializable {
 
 	@Id
@@ -30,7 +28,7 @@ public class Authority implements Serializable {
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "Roleid")
+	@JoinColumn(name = "RoleID")
 	private Role role;
 
 }

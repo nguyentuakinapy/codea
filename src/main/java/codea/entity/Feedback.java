@@ -1,6 +1,6 @@
 package codea.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ public class Feedback {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "FeedbackID")
-	Integer feedBackID;
+	Integer feedBackId;
 
 	@Column(name = "Comment")
 	String comment;
@@ -32,7 +32,7 @@ public class Feedback {
 	Integer star;
 
 	@Column(name = "Date")
-	Date date;
+	LocalDate date;
 
 	@ManyToOne
 	@JoinColumn(name = "UserID")

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,29 +17,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "brand")
+@Table(name = "color")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
+@AllArgsConstructor
+public class Color {
 	@Id
-	@Column(name = "BrandID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer brandID;
-
+	@Column(name = "ColorID")
+	Integer colorId;
+	
 	@Column(name = "Name")
 	String name;
+	
+	@Column(name = "Hexcode", length = 7)
+	String hexCode;
 
-	@Column(name = "Address")
-	String addRess;
-
-	@Column(name = "Phone")
-	String phone;
-
-	@Column(name = "Email")
-	String email;
-
-	@OneToMany(mappedBy = "brand")
+	@OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonBackReference
-	List<Product> products;
+    private List<ProductDetail> productDetails;
 }
