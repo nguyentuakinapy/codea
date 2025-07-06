@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.http.HttpStatus;
 
 import codea.dao.AuthorityDAO;
 import codea.dao.RoleDAO;
@@ -63,7 +63,7 @@ public class UserRestController {
 				.orElseThrow(() -> new RuntimeException("Email không tồn tại!"));
 		
 		if (!user.getPassword().equals(request.getPassword())) {
-			return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body("Sai tài khoản hoặc mật khẩu!");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Sai tài khoản hoặc mật khẩu!"));
 		}
 		
 		Map<String, Object> userInfo = new HashMap<>();
