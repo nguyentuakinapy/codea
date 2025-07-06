@@ -46,7 +46,7 @@ public class User implements Serializable {
 	private List<Cart> carts;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
-//	@JsonManagedReference
+	@JsonManagedReference
 	private List<Authority> authorities;
 
 	@OneToMany(mappedBy = "user")

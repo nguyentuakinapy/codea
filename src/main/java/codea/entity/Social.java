@@ -22,14 +22,17 @@ public class Social {
 	Integer socialId;
 	
 	@Column(name = "Name", nullable = false)
-    private String name;
+    String name;
 
-    @Column(name = "IconURL", nullable = false)
-    private String iconUrl;
+    @Column(name = "IconURL", nullable = true)
+    String iconUrl;
 
     @Column(name = "Link", nullable = false)
-    private String link;
+    String link;
 
-    @Column(name = "IsActive")
-    private Boolean isActive;
+    @Column(name = "Isactive")
+    Boolean isActive;
+    
+    @Column(name = "Isphone")
+    Boolean isPhone;
 }

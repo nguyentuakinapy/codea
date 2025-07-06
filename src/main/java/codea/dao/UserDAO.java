@@ -9,10 +9,8 @@ import org.springframework.data.repository.query.Param;
 import codea.entity.User;
 
 public interface UserDAO extends JpaRepository<User, Integer> {
+	Optional<User> findByEmail(String email);
 
-	@Query("SELECT o FROM User o WHERE email = ?1")
-	User findByEmail(String email);
-//
 //	@Query("SELECT u FROM BookingDetail bd JOIN bd.booking b JOIN b.user u "
 //			+ "WHERE bd.bookingDetailId = :bookingDetailId")
 //	User findUserByBookingDetailId(@Param("bookingDetailId") Integer bookingDetailId);

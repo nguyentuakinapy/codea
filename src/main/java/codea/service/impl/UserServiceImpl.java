@@ -1,6 +1,7 @@
 package codea.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,15 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	UserDAO userDao;
-
-	@Override
-	public User findByEmailUser(String email) {
-		return userDao.findByEmail(email);
-	}
-
+	
 	@Override
 	public List<User> findAllUser() {
 		return userDao.findAll();
+	}
+	
+	@Override
+	public Optional<User> findByEmail(String email) {
+		return userDao.findByEmail(email);
 	}
 
 	@Override
@@ -34,5 +35,4 @@ public class UserServiceImpl implements UserService{
 	public User update(User user) {
 		return userDao.save(user);
 	}
-
 }

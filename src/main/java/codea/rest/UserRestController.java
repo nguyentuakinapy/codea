@@ -7,11 +7,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,17 +31,16 @@ import org.springframework.web.servlet.view.RedirectView;
 import codea.dao.AuthorityDAO;
 import codea.dao.RoleDAO;
 import codea.dao.UserDAO;
-import codea.dto.ResponeBase;
+import codea.dto.LoginRequest;
 import codea.entity.Authority;
 import codea.entity.Role;
 import codea.entity.User;
 import codea.service.UserService;
 import codea.utils.RandomUtils;
-import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/api/user")
 public class UserRestController {
 
 	@Autowired
@@ -51,79 +52,78 @@ public class UserRestController {
 	@Autowired
 	RoleDAO roleDAO; 
 
-	@GetMapping("/user/list")
+	@GetMapping()
 	public List<User> getFullUser() {
 		return userService.findAllUser();
 	}
 
-	@PostMapping("/user/login")
-	public ResponeBase<User> checkLogin(@RequestParam("email") String email,
-			@RequestParam("password") String password) {
-		ResponeBase<User> rb = new ResponeBase<User>();
-		try {
-			User user = userService.findByEmailUser(email);
-			if (user.getPassword().equals(password)) {
-				rb.setSuccess(true);
-				rb.setData(user);
-				rb.setError("");
-			}
-		} catch (Exception e) {
-			rb.setSuccess(false);
-			rb.setError(e.getMessage());
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+		User user = userService.findByEmail(request.getEmail())
+				.orElseThrow(() -> new RuntimeException("Email không tồn tại!"));
+		
+		if (!user.getPassword().equals(request.getPassword())) {
+			return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body("Sai tài khoản hoặc mật khẩu!");
 		}
-		return rb;
+		
+		Map<String, Object> userInfo = new HashMap<>();
+		userInfo.put("userId", user.getUserId());
+		userInfo.put("fullname", user.getFullname());
+		userInfo.put("email", user.getEmail());
+		
+		return ResponseEntity.ok(userInfo);
 	}
 	
-	@PostMapping("/user/create/account")
-	public ResponeBase<User> createAccount(@RequestParam("password") String password, @RequestParam("email") String email,
-			@RequestParam("fullname") String fullname) {
-		ResponeBase<User> rb = new ResponeBase<User>();
-		try {
-			User user = new User();
-			user.setEmail(email);
-			user.setFullname(fullname);
-			user.setPassword(password);
-			
-			userService.create(user);
-			
-			Authority auth = new Authority();
-			auth.setRole(roleDAO.findById(1).get());
-			auth.setUser(user);
-			rb.setData(user);
-			rb.setSuccess(true);
-			rb.setError("");
-		} catch (Exception e) {
-			rb.setSuccess(false);
-			rb.setError(e.getMessage());
-		}
-		return rb;
-	}
+//	@PostMapping("/user/create/account")
+//	public ResponeBase<User> createAccount(@RequestParam("password") String password, @RequestParam("email") String email,
+//			@RequestParam("fullname") String fullname) {
+//		ResponeBase<User> rb = new ResponeBase<User>();
+//		try {
+//			User user = new User();
+//			user.setEmail(email);
+//			user.setFullname(fullname);
+//			user.setPassword(password);
+//			
+//			userService.create(user);
+//			
+//			Authority auth = new Authority();
+//			auth.setRole(roleDAO.findById(1).get());
+//			auth.setUser(user);
+//			rb.setData(user);
+//			rb.setSuccess(true);
+//			rb.setError("");
+//		} catch (Exception e) {
+//			rb.setSuccess(false);
+//			rb.setError(e.getMessage());
+//		}
+//		return rb;
+//	}
 	
-	@PostMapping("/user/update/account")
-	public ResponeBase<User> updateAccount(@RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("email") String email,
-			@RequestParam("fullname") String fullname, @RequestParam("image") String image) {
-		ResponeBase<User> rb = new ResponeBase<User>();
-		try {
-			User user = new User();
-			user.setEmail(email);
-			user.setFullname(fullname);
-			user.setPassword(password);
-			
-			userService.update(user);
-			
-			Authority auth = new Authority();
-			auth.setRole(roleDAO.findById(1).get());
-			auth.setUser(user);
-			rb.setData(user);
-			rb.setSuccess(true);
-			rb.setError("");
-		} catch (Exception e) {
-			rb.setSuccess(false);
-			rb.setError(e.getMessage());
-		}
-		return rb;
-	}
+//	@PostMapping("/user/update/account")
+//	public ResponeBase<User> updateAccount(@RequestParam("username") String username,
+//			@RequestParam("password") String password, @RequestParam("email") String email,
+//			@RequestParam("fullname") String fullname, @RequestParam("image") String image) {
+//		ResponeBase<User> rb = new ResponeBase<User>();
+//		try {
+//			User user = new User();
+//			user.setEmail(email);
+//			user.setFullname(fullname);
+//			user.setPassword(password);
+//			
+//			userService.update(user);
+//			
+//			Authority auth = new Authority();
+//			auth.setRole(roleDAO.findById(1).get());
+//			auth.setUser(user);
+//			rb.setData(user);
+//			rb.setSuccess(true);
+//			rb.setError("");
+//		} catch (Exception e) {
+//			rb.setSuccess(false);
+//			rb.setError(e.getMessage());
+//		}
+//		return rb;
+//	}
 
 //	@Autowired
 //	UserService userService;

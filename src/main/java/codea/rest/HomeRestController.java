@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import codea.entity.Banner;
-import codea.service.BannerService;
 import codea.service.ProductService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @CrossOrigin("*")
@@ -23,17 +20,10 @@ public class HomeRestController {
 
 	@Autowired
 	ProductService productService;
-	@Autowired
-	BannerService bannerService;
 	
 	@GetMapping("products")
 	public ResponseEntity<List<Map<String, Object>>> getHomeProducts() {
 		return ResponseEntity.ok(productService.getProductsForHome());
-	}
-	
-	@GetMapping("banners")
-	public ResponseEntity<List<Banner>> getHomeBanners() {
-		return ResponseEntity.ok(bannerService.findAllBanner());
 	}
 	
 }
