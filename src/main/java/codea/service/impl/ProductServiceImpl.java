@@ -17,8 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import codea.dao.CategoryDAO;
+import codea.dao.ColorDAO;
 import codea.dao.ProductDAO;
 import codea.entity.Category;
+import codea.entity.Color;
 import codea.entity.Gallery;
 import codea.entity.Product;
 import codea.entity.ProductDetail;
@@ -27,22 +29,12 @@ import codea.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	
 	@Autowired
 	ProductDAO productDAO;
 	@Autowired
 	CategoryDAO categoryDAO;
-	
-	@Override
-	public Page<Product> findAllUserSoft(Integer page, Integer size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return productDAO.findAll(pageable);
-	}
-
-	@Override
-	public Product findbyId(Integer id) {
-		return productDAO.findById(id).get();
-	}
+	@Autowired
+	ColorDAO colorDAO;
 
 	@Override
 	public List<Map<String, Object>> getProductsForHome() {
@@ -90,6 +82,22 @@ public class ProductServiceImpl implements ProductService {
 	    }
 
 	    return result;
+	}
+
+	@Override
+	public Page<Product> findProducts(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product createProduct(Product product) {
+		return productDAO.save(product);
+	}
+
+	@Override
+	public Product findById(Integer id) {
+		return productDAO.findById(id).get();
 	}
 
 }

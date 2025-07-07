@@ -33,7 +33,6 @@ public class BannerRestController {
 		return bannerService.findAllBanner();
 	}
 	
-	
 	@GetMapping("/page")
 	public PagedResponse<Banner> getBannersByPage(@RequestParam(defaultValue = "1" ) Integer pageIndex,
 			@RequestParam(defaultValue = "10") Integer pageSize) {
@@ -57,5 +56,4 @@ public class BannerRestController {
 	public void deleteBanner(@PathVariable("id") Integer id) {
 		bannerService.deleteBanner(id);
 	}
-	
 }
