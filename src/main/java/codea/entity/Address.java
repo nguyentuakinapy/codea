@@ -1,5 +1,7 @@
 package codea.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,7 +26,7 @@ public class Address {
 	@Column(name = "AddressID")
 	Integer addressId;
 
-	@Column(name = "AddressDetail", nullable = false)
+	@Column(name = "Addressdetail", nullable = false)
 	String addressDetail;
 	
 	@Column(name = "Address", nullable = false)
@@ -35,6 +37,7 @@ public class Address {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "UserID")
+	@JsonBackReference
 	User user;
 
 }

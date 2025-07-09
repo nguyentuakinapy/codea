@@ -37,7 +37,8 @@ public class CategoryRestController {
 			@RequestParam(defaultValue = "10") Integer pageSize) {
 		int serverPageIndex = Math.max(pageIndex - 1, 0);
 		Page<Category> categoryPage = categoryService.findCategories(PageRequest.of(serverPageIndex, pageSize));
-	    return new PagedResponse<>(categoryPage.getTotalElements(), pageIndex, categoryPage.getSize(), categoryPage.getContent());
+	    return new PagedResponse<>(categoryPage.getTotalElements(), categoryPage.getTotalPages(), pageIndex,
+	    		categoryPage.getSize(), categoryPage.getContent());
 	}
 	
 	@PostMapping

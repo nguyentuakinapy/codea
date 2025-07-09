@@ -33,12 +33,13 @@ public class BannerRestController {
 		return bannerService.findAllBanner();
 	}
 	
-	@GetMapping("/page")
+	@PostMapping("/page")
 	public PagedResponse<Banner> getBannersByPage(@RequestParam(defaultValue = "1" ) Integer pageIndex,
 			@RequestParam(defaultValue = "10") Integer pageSize) {
 		int serverPageIndex = Math.max(pageIndex - 1, 0);
 		Page<Banner> bannerPage = bannerService.findBanners(PageRequest.of(serverPageIndex, pageSize));
-	    return new PagedResponse<>(bannerPage.getTotalElements(), pageIndex, bannerPage.getSize(), bannerPage.getContent());
+	    return new PagedResponse<>(bannerPage.getTotalElements(), bannerPage.getTotalPages(), pageIndex,
+	    		bannerPage.getSize(), bannerPage.getContent());
 	}
 	
 	@PostMapping

@@ -7,15 +7,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import codea.dto.ProductCreateBody;
 import codea.entity.Product;
 
 @Service
 public interface ProductService {
 	List<Map<String, Object>> getProductsForHome();
 
-	Page<Product> findProducts(Pageable pageable);
-	
-	Product createProduct(Product product);
-	
 	Product findById(Integer id);
+	
+	Page<Product> findProducts(Integer categoryId, Pageable pageable);
+	
+	Product createProduct(ProductCreateBody body);
+	
+	Product updateProduct(Integer id, ProductCreateBody product);
 }

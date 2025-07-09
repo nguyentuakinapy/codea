@@ -2,6 +2,7 @@ package codea.service.impl;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import codea.dao.CategoryDAO;
 import codea.dao.ColorDAO;
 import codea.dao.ProductDAO;
+import codea.dto.ProductCreateBody;
 import codea.entity.Category;
 import codea.entity.Color;
 import codea.entity.Gallery;
@@ -85,19 +87,40 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Product> findProducts(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<Product> findProducts(Integer categoryId, Pageable pageable) {
+		if (categoryId != null) {
+	        return productDAO.findByCategoryCategoryId(categoryId, pageable);
+	    }
+	    return productDAO.findAll(pageable);
 	}
 
 	@Override
-	public Product createProduct(Product product) {
+	public Product createProduct(ProductCreateBody body) {
+		Category category = categoryDAO.findById(body.getCategoryId())
+		        .orElseThrow(() -> new RuntimeException("Category not found"));
+
+		Product product = new Product();
+		product.setName(body.getName());
+		product.setStatus(body.getStatus());
+		product.setDate(body.getDate() != null ? body.getDate() : LocalDate.now());
+		product.setCategory(category);
 		return productDAO.save(product);
 	}
 
 	@Override
 	public Product findById(Integer id) {
 		return productDAO.findById(id).get();
+	}
+
+	@Override
+	public Product updateProduct(Integer id, ProductCreateBody body) {
+		Product existing = productDAO.findById(id).get();
+		Category category = categoryDAO.findById(body.getCategoryId()).orElseThrow();
+		existing.setCategory(category);
+		existing.setName(body.getName());
+	    existing.setStatus(body.getStatus());
+	    existing.setDate(body.getDate() != null ? body.getDate() : LocalDate.now());
+		return productDAO.save(existing);
 	}
 
 }

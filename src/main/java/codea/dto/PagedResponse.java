@@ -8,8 +8,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PagedResponse<T> {
-	long total;
+	long totalRecords;
+	int totalPages;
 	int pageIndex;
 	int pageSize;
-	List<T> data;
+	List<T> records;
 }

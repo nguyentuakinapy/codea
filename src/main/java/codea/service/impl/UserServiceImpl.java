@@ -56,7 +56,8 @@ public class UserServiceImpl implements UserService{
 	public Map<String, Object> login(String email, String password) {
 		User user = findByEmail(email).orElseThrow(() -> new RuntimeException("Email không tồn tại!"));
 		if (!passwordEncoder.matches(password, user.getPassword())) throw new RuntimeException("Sai tài khoản hoặc mật khẩu!");
-		return Map.of("userId", user.getUserId(), "fullname", user.getFullname(), "email", user.getEmail());
+		return Map.of("userId", user.getUserId(), "fullname", user.getFullname(), "email", user.getEmail(),
+				"authorities", user.getAuthorities(), "addresses", user.getAddresses());
 	}
 
 	@Override
@@ -106,5 +107,20 @@ public class UserServiceImpl implements UserService{
 		user.setPassword(passwordEncoder.encode(newPassword));
 		update(user);
 		otpTempStorageService.removeOtp(email);
+	}
+
+	@Override
+	public void changePassword(String email, String oldPassword, String newPassword) {
+		User user = userDao.findByEmail(email).get();
+		
+		if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+			throw new RuntimeException("Mật khẩu cũ không đúng!");
+		}
+		
+		user.setPassword(passwordEncoder.encode(newPassword));
+		userDao.save(user);
+		
+		otpService.sendSimpleEmail(email, "Đổi mật khẩu thành công", "Bạn vừa thay đổi mật khẩu vào lúc "
+		+ LocalDateTime.now() + ". Nếu không phải bạn, hãy liên hệ quản trị viên ngay.");
 	}
 }

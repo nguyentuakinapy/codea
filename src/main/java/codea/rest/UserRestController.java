@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
+import codea.dto.ChangePasswordRequest;
 import codea.dto.LoginRequest;
 import codea.entity.User;
 import codea.service.UserService;
@@ -80,5 +81,15 @@ public class UserRestController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
+	}
+	
+	@PostMapping("/change-password")
+	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+	    try {
+	        userService.changePassword(request.getEmail(), request.getOldPassword(), request.getNewPassword());
+	        return ResponseEntity.ok(Map.of("message", "Đổi mật khẩu thành công!"));
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+	    }
 	}
 }

@@ -20,4 +20,5 @@ public interface UserService {
     void verifyOtpForRegister(String email, String otp);
     void sendOtpForReset(String email);
     void resetPassword(String email, String otp, String newPassword);
+    void changePassword(String email, String otp, String newPassword);
 }

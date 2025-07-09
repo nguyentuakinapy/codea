@@ -1,5 +1,6 @@
 package codea.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -15,7 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Order_Detail")
+@Table(name = "Order_Details")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +32,7 @@ public class OrderDetail {
 
 	@ManyToOne
 	@JoinColumn(name = "OrderID")
+	@JsonBackReference
 	Order order;
 
 	@ManyToOne

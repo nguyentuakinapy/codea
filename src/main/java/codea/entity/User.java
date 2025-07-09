@@ -37,8 +37,8 @@ public class User implements Serializable {
 	@Column(name = "Fullname", nullable = false)
 	private String fullname;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 
-	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Address> addresses;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL) 

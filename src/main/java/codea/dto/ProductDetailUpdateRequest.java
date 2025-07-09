@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-public class ProductDetailCreateRequest {
-    private Integer productId;
+public class ProductDetailUpdateRequest {
+    private Integer productDetailId;
     private ColorRequest color;
     private List<SizeRequest> sizes;
     private List<GalleryRequest> galleries;
@@ -20,6 +20,7 @@ public class ProductDetailCreateRequest {
 
     @Data
     public static class SizeRequest {
+        private Integer productDetailSizeId;
         private String size;
         private Integer quantity;
         private BigDecimal price;
@@ -29,6 +30,7 @@ public class ProductDetailCreateRequest {
 
     @Data
     public static class GalleryRequest {
+        private Integer galleryID;
         private String imageUrl;
     }
 }

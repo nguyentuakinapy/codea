@@ -32,12 +32,13 @@ public class SocialRestController {
 		return socialService.findAllSocial();
 	}
 	
-	@GetMapping("/page")
+	@PostMapping("/page")
 	public PagedResponse<Social> getSocialByPage(@RequestParam(defaultValue = "1") Integer pageIndex,
 			@RequestParam(defaultValue = "10") Integer pageSize) {
 		int serverPageIndex = Math.max(pageIndex - 1, 0);
 		Page<Social> socialPage = socialService.findSocials(PageRequest.of(serverPageIndex, pageSize));
-		return new PagedResponse<>(socialPage.getTotalElements(), pageIndex, socialPage.getSize(), socialPage.getContent());
+		return new PagedResponse<>(socialPage.getTotalElements(), socialPage.getTotalPages(), pageIndex,
+				socialPage.getSize(), socialPage.getContent());
 	}
 	
 	@PostMapping

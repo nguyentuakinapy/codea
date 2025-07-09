@@ -3,6 +3,8 @@ package codea.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "[Order]")
+@Table(name = "[Orders]")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,6 +56,7 @@ public class Order {
 	Voucher voucher;
 
 	@OneToMany(mappedBy = "order")
+	@JsonManagedReference
 	List<OrderDetail> orderDetails;
 	
 	
