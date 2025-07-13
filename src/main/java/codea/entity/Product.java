@@ -41,6 +41,9 @@ public class Product {
 	@Column(name = "Date", nullable = false)
 	LocalDate date = LocalDate.now();
 	
+	@Column(name = "Description", nullable = true)
+	String description;
+	
 	@ManyToOne
 	@JoinColumn(name = "CategoryID", nullable = false)
 	@JsonManagedReference
@@ -51,5 +54,6 @@ public class Product {
 	List<ProductDetail> productDetails;
 
 	@OneToMany(mappedBy = "product")
+	@JsonManagedReference
 	List<Feedback> feedbacks;
 }

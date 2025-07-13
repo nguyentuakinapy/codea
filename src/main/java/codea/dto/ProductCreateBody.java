@@ -10,4 +10,5 @@ public class ProductCreateBody {
     private Integer status;
     private LocalDate date;
     private Integer categoryId;
+    private String description;
 }

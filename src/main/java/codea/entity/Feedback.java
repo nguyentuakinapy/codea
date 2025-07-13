@@ -2,6 +2,8 @@ package codea.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,5 +42,6 @@ public class Feedback {
 
 	@ManyToOne
 	@JoinColumn(name = "ProductID")
+	@JsonBackReference
 	Product product;
 }

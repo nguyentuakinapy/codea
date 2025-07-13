@@ -8,11 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import codea.dto.ProductCreateBody;
+import codea.dto.ProductGroupByLabelDTO;
 import codea.entity.Product;
 
 @Service
 public interface ProductService {
 	List<Map<String, Object>> getProductsForHome();
+	
+	ProductGroupByLabelDTO getProductSale();
 
 	Product findById(Integer id);
 	

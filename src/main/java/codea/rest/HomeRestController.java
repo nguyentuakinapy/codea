@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import codea.dto.ProductGroupByLabelDTO;
 import codea.service.ProductService;
 
 
@@ -24,6 +25,11 @@ public class HomeRestController {
 	@GetMapping("products")
 	public ResponseEntity<List<Map<String, Object>>> getHomeProducts() {
 		return ResponseEntity.ok(productService.getProductsForHome());
+	}
+	
+	@GetMapping("sale")
+	public ResponseEntity<ProductGroupByLabelDTO> getPromotedProducts() {
+		return ResponseEntity.ok(productService.getProductSale());
 	}
 	
 }

@@ -6,9 +6,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import codea.dao.CategoryDAO;
 import codea.dao.ColorDAO;
 import codea.dao.ProductDAO;
 import codea.dto.ProductCreateBody;
+import codea.dto.ProductGroupByLabelDTO;
+import codea.dto.ProductWithImagesDTO;
 import codea.entity.Category;
 import codea.entity.Color;
 import codea.entity.Gallery;
@@ -87,6 +91,36 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public ProductGroupByLabelDTO getProductSale() {
+		List<Product> products = productDAO.findByStatus(1); // hoặc custom query
+
+	    List<ProductWithImagesDTO> promotedProducts = products.stream().map(product -> {
+	    	 for (ProductDetail detail : product.getProductDetails()) {
+	                Optional<ProductDetailSize> bestSize = detail.getSizes().stream()
+	                    .filter(s -> s.getQuantity() > 0 && s.getDiscountPercent() > 0)
+	                    .min(Comparator.comparing(ProductDetailSize::getRealPrice));
+
+	                if (bestSize.isPresent()) {
+	                    List<String> images = detail.getGalleries().stream().map(Gallery::getImageUrl).limit(2).toList();
+
+	                    ProductDetailSize size = bestSize.get();
+
+	                    return new ProductWithImagesDTO(
+	                        product.getProductId(),
+	                        product.getName(),
+	                        size.getRealPrice(),
+	                        size.getPrice(),
+	                        images
+	                    );
+	                }
+	            }
+	            return null;
+	        }).filter(Objects::nonNull).toList();
+
+	    return new ProductGroupByLabelDTO("Khuyến mãi", promotedProducts);
+	}
+	
+	@Override
 	public Page<Product> findProducts(Integer categoryId, Pageable pageable) {
 		if (categoryId != null) {
 	        return productDAO.findByCategoryCategoryId(categoryId, pageable);
@@ -120,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
 		existing.setName(body.getName());
 	    existing.setStatus(body.getStatus());
 	    existing.setDate(body.getDate() != null ? body.getDate() : LocalDate.now());
+	    existing.setDescription(body.getDescription());
 		return productDAO.save(existing);
 	}
-
 }
