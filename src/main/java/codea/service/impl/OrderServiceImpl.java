@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import codea.dao.OrderDAO;
@@ -64,5 +66,22 @@ public class OrderServiceImpl implements OrderService {
         savedOrder.setOrderDetails(details);
         
 		return savedOrder;
+	}
+
+	@Override
+	public Page<Order> findOrder(Pageable pageable) {
+		return orderDAO.findAll(pageable);
+	}
+
+	@Override
+	public Order findById(Integer id) {
+		return orderDAO.findById(id).get();
+	}
+
+	@Override
+	public void updateStatus(Integer id, Integer status) {
+		Order order = orderDAO.findById(id).get();
+		order.setStatus(status);
+		orderDAO.save(order);
 	}
 }
